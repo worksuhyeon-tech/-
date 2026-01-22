@@ -34,6 +34,12 @@ body {
   box-shadow: 0 20px 40px rgba(15, 23, 42, 0.08);
 }
 
+.header-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
 .app-eyebrow {
   font-weight: 600;
   text-transform: uppercase;
@@ -57,7 +63,7 @@ body {
 
 .stepper {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 16px;
 }
 
@@ -79,6 +85,31 @@ body {
 .step-label {
   font-size: 14px;
   font-weight: 600;
+}
+
+.step-desc {
+  font-size: 12px;
+  color: #64748b;
+}
+
+.step-status {
+  align-self: flex-start;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  background: #e2e8f0;
+  color: #1f2937;
+}
+
+.status-완료 {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.status-진행중 {
+  background: #dbeafe;
+  color: #1d4ed8;
 }
 
 .grid {
@@ -103,6 +134,70 @@ body {
   font-size: 20px;
 }
 
+.login-panel {
+  gap: 24px;
+}
+
+.login-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.login-card,
+.project-card {
+  border-radius: 16px;
+  border: 1px solid #e2e8f0;
+  padding: 18px;
+  background: #f8fafc;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.project-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.project-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.project-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px;
+  border-radius: 12px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+}
+
+.project-list li strong {
+  display: block;
+  font-size: 14px;
+}
+
+.project-list li span {
+  font-size: 12px;
+  color: #64748b;
+}
+
+.project-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+
 .preview-panel {
   gap: 16px;
 }
@@ -118,6 +213,11 @@ body {
   margin: 6px 0 0;
   color: #64748b;
   font-size: 14px;
+}
+
+.hint {
+  font-size: 12px;
+  color: #64748b;
 }
 
 .preview-grid {
@@ -161,6 +261,11 @@ body {
   border-radius: 999px;
   font-size: 12px;
   font-weight: 600;
+}
+
+.badge.neutral {
+  background: #e2e8f0;
+  color: #1f2937;
 }
 
 .field {
@@ -320,9 +425,14 @@ textarea {
   border-color: #e2e8f0;
 }
 
+.image-settings {
+  display: grid;
+  gap: 12px;
+}
+
 .editor {
   display: grid;
-  grid-template-columns: 160px 1fr 220px;
+  grid-template-columns: 200px 1fr 240px;
   gap: 16px;
   align-items: stretch;
 }
@@ -336,6 +446,37 @@ textarea {
   display: flex;
   flex-direction: column;
   gap: 12px;
+}
+
+.layer-stack {
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.layer-stack h4 {
+  margin: 0;
+  font-size: 14px;
+}
+
+.layer-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 8px;
+  border-radius: 10px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  font-size: 12px;
+}
+
+.chip {
+  background: #e2e8f0;
+  color: #1f2937;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 11px;
 }
 
 .canvas {
@@ -390,6 +531,31 @@ textarea {
   color: #475569;
 }
 
+.export-footnote {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.auto-save {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #0f172a;
+  background: #dcfce7;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-weight: 600;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #22c55e;
+}
+
 @media (max-width: 960px) {
   .app-header {
     flex-direction: column;
@@ -398,5 +564,10 @@ textarea {
   .cut-layout,
   .editor {
     grid-template-columns: 1fr;
+  }
+
+  .preview-header {
+    flex-direction: column;
+    align-items: flex-start;
   }
 }
