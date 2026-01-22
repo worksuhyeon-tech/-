@@ -43,6 +43,31 @@ export default function App() {
         ))}
       </section>
 
+      <section className="panel preview-panel">
+        <div className="preview-header">
+          <div>
+            <h2>미리보기</h2>
+            <p className="muted">
+              각 컷의 최신 상태를 한 번에 확인하고 공유 전에 빠르게 점검하세요.
+            </p>
+          </div>
+          <button className="primary">미리보기 모드</button>
+        </div>
+        <div className="preview-grid">
+          {[1, 2, 3, 4].map((cut) => (
+            <article key={cut} className="preview-card">
+              <div className="preview-thumb">
+                <span>컷 {cut}</span>
+              </div>
+              <div className="preview-meta">
+                <strong>컷 {cut}</strong>
+                <span className="badge">편집 완료</span>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
       <div className="grid">
         <section className="panel">
           <h2>Step 1. 프로젝트 생성</h2>
