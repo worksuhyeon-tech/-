@@ -1,0 +1,703 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <base target="_top" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Comic Cut Studio</title>
+    <style>
+      :root {
+        color-scheme: light;
+        font-family: "Pretendard", "Apple SD Gothic Neo", "Segoe UI", sans-serif;
+        color: #0f172a;
+        background: #f8fafc;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: #f8fafc;
+      }
+
+      .app {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 32px 24px 80px;
+        display: flex;
+        flex-direction: column;
+        gap: 32px;
+      }
+
+      .app-header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 24px;
+        background: #ffffff;
+        padding: 28px;
+        border-radius: 20px;
+        box-shadow: 0 20px 40px rgba(15, 23, 42, 0.08);
+      }
+
+      .app-eyebrow {
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.18em;
+        font-size: 12px;
+        color: #64748b;
+        margin: 0 0 8px;
+      }
+
+      .app-header h1 {
+        margin: 0 0 12px;
+        font-size: 28px;
+      }
+
+      .app-subtitle {
+        margin: 0;
+        color: #475569;
+        max-width: 560px;
+        line-height: 1.6;
+      }
+
+      .stepper {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+        gap: 16px;
+      }
+
+      .step {
+        background: #ffffff;
+        border-radius: 16px;
+        padding: 16px;
+        border: 1px solid #e2e8f0;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+
+      .step-index {
+        font-weight: 700;
+        color: #2563eb;
+      }
+
+      .step-label {
+        font-size: 14px;
+        font-weight: 600;
+      }
+
+      .grid {
+        display: grid;
+        gap: 24px;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      }
+
+      .panel {
+        background: #ffffff;
+        padding: 24px;
+        border-radius: 18px;
+        border: 1px solid #e2e8f0;
+        box-shadow: 0 12px 24px rgba(15, 23, 42, 0.06);
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .panel h2 {
+        margin: 0;
+        font-size: 20px;
+      }
+
+      .preview-panel {
+        gap: 16px;
+      }
+
+      .preview-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+      }
+
+      .muted {
+        margin: 6px 0 0;
+        color: #64748b;
+        font-size: 14px;
+      }
+
+      .preview-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 16px;
+      }
+
+      .preview-card {
+        border-radius: 16px;
+        border: 1px solid #e2e8f0;
+        padding: 12px;
+        background: #f8fafc;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .preview-thumb {
+        border-radius: 12px;
+        background: linear-gradient(135deg, #c7d2fe, #e0f2fe);
+        min-height: 120px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        color: #1e293b;
+      }
+
+      .preview-meta {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 14px;
+      }
+
+      .badge {
+        background: #dcfce7;
+        color: #15803d;
+        padding: 4px 10px;
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 600;
+      }
+
+      .field {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        font-size: 14px;
+        color: #334155;
+      }
+
+      input,
+      select,
+      textarea {
+        border-radius: 12px;
+        border: 1px solid #cbd5f5;
+        padding: 10px 12px;
+        font-size: 14px;
+        font-family: inherit;
+      }
+
+      textarea {
+        resize: vertical;
+      }
+
+      .range-value {
+        font-size: 13px;
+        color: #64748b;
+      }
+
+      .primary,
+      .secondary,
+      .ghost {
+        border-radius: 999px;
+        border: none;
+        padding: 10px 18px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: transform 0.15s ease, box-shadow 0.15s ease;
+      }
+
+      .primary {
+        background: #2563eb;
+        color: #fff;
+        box-shadow: 0 12px 18px rgba(37, 99, 235, 0.24);
+      }
+
+      .secondary {
+        background: #e2e8f0;
+        color: #0f172a;
+      }
+
+      .ghost {
+        background: #f1f5f9;
+        color: #0f172a;
+      }
+
+      .primary:hover,
+      .secondary:hover,
+      .ghost:hover {
+        transform: translateY(-1px);
+      }
+
+      .card-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+        gap: 16px;
+      }
+
+      .card {
+        border-radius: 16px;
+        border: 1px solid #e2e8f0;
+        padding: 16px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        background: #f8fafc;
+      }
+
+      .avatar {
+        width: 46px;
+        height: 46px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #93c5fd, #a5b4fc);
+      }
+
+      .button-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+
+      .cut-layout {
+        display: grid;
+        grid-template-columns: 160px 1fr;
+        gap: 16px;
+      }
+
+      .cut-list {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .cut-item,
+      .cut-add {
+        border: 1px solid #e2e8f0;
+        background: #f8fafc;
+        padding: 10px 12px;
+        border-radius: 12px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+        cursor: pointer;
+        font-weight: 600;
+      }
+
+      .cut-add {
+        border-style: dashed;
+        text-align: left;
+      }
+
+      .tag-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        align-items: center;
+      }
+
+      .tag {
+        background: #dbeafe;
+        color: #1d4ed8;
+        padding: 6px 10px;
+        border-radius: 999px;
+        font-size: 13px;
+        font-weight: 600;
+      }
+
+      .small {
+        font-size: 12px;
+        padding: 6px 12px;
+      }
+
+      .status-card {
+        border-radius: 16px;
+        border: 1px solid #dbeafe;
+        padding: 16px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        background: #eff6ff;
+      }
+
+      .status-card.muted {
+        background: #f1f5f9;
+        border-color: #e2e8f0;
+      }
+
+      .editor {
+        display: grid;
+        grid-template-columns: 160px 1fr 220px;
+        gap: 16px;
+        align-items: stretch;
+      }
+
+      .editor-nav,
+      .editor-panel {
+        background: #f8fafc;
+        border-radius: 16px;
+        padding: 16px;
+        border: 1px solid #e2e8f0;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .canvas {
+        background: #eef2ff;
+        border-radius: 18px;
+        border: 1px dashed #94a3b8;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 260px;
+      }
+
+      .canvas-placeholder {
+        text-align: center;
+        color: #475569;
+      }
+
+      .canvas-placeholder p {
+        margin: 0 0 8px;
+        font-size: 18px;
+        font-weight: 600;
+      }
+
+      .toolbar {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+
+      .export-options {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      .checkbox {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-weight: 600;
+      }
+
+      .note {
+        background: #f8fafc;
+        border-radius: 14px;
+        padding: 16px;
+        border: 1px solid #e2e8f0;
+      }
+
+      .note ul {
+        margin: 8px 0 0 16px;
+        color: #475569;
+      }
+
+      @media (max-width: 960px) {
+        .app-header {
+          flex-direction: column;
+        }
+
+        .cut-layout,
+        .editor {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app">
+      <header class="app-header">
+        <div>
+          <p class="app-eyebrow">Comic Cut Studio</p>
+          <h1>내부 교육·홍보용 컷툰 생성 워크플로우</h1>
+          <p class="app-subtitle">
+            1~8컷 컷툰을 단계형으로 제작하고, PPTX까지 요소 분리 형태로 내보내는
+            사내 제작 툴 MVP 레이아웃입니다.
+          </p>
+        </div>
+        <button class="primary" type="button">새 프로젝트</button>
+      </header>
+
+      <section class="stepper">
+        <div class="step">
+          <span class="step-index">01</span>
+          <span class="step-label">프로젝트 생성</span>
+        </div>
+        <div class="step">
+          <span class="step-index">02</span>
+          <span class="step-label">캐릭터 설정</span>
+        </div>
+        <div class="step">
+          <span class="step-index">03</span>
+          <span class="step-label">컷 구성 &amp; 대본</span>
+        </div>
+        <div class="step">
+          <span class="step-index">04</span>
+          <span class="step-label">이미지 생성</span>
+        </div>
+        <div class="step">
+          <span class="step-index">05</span>
+          <span class="step-label">편집</span>
+        </div>
+        <div class="step">
+          <span class="step-index">06</span>
+          <span class="step-label">내보내기</span>
+        </div>
+      </section>
+
+      <section class="panel preview-panel">
+        <div class="preview-header">
+          <div>
+            <h2>미리보기</h2>
+            <p class="muted">
+              각 컷의 최신 상태를 한 번에 확인하고 공유 전에 빠르게 점검하세요.
+            </p>
+          </div>
+          <button class="primary" type="button">미리보기 모드</button>
+        </div>
+        <div class="preview-grid">
+          <article class="preview-card">
+            <div class="preview-thumb"><span>컷 1</span></div>
+            <div class="preview-meta">
+              <strong>컷 1</strong>
+              <span class="badge">편집 완료</span>
+            </div>
+          </article>
+          <article class="preview-card">
+            <div class="preview-thumb"><span>컷 2</span></div>
+            <div class="preview-meta">
+              <strong>컷 2</strong>
+              <span class="badge">편집 완료</span>
+            </div>
+          </article>
+          <article class="preview-card">
+            <div class="preview-thumb"><span>컷 3</span></div>
+            <div class="preview-meta">
+              <strong>컷 3</strong>
+              <span class="badge">편집 완료</span>
+            </div>
+          </article>
+          <article class="preview-card">
+            <div class="preview-thumb"><span>컷 4</span></div>
+            <div class="preview-meta">
+              <strong>컷 4</strong>
+              <span class="badge">편집 완료</span>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <div class="grid">
+        <section class="panel">
+          <h2>Step 1. 프로젝트 생성</h2>
+          <label class="field">
+            프로젝트명
+            <input placeholder="예: 고객 서비스 안내 컷툰" />
+          </label>
+          <label class="field">
+            컷 수 (1~8)
+            <input
+              type="range"
+              min="1"
+              max="8"
+              value="4"
+              id="cutRange"
+            />
+            <span class="range-value" id="cutValue">4컷</span>
+          </label>
+          <label class="field">
+            프로젝트 유형
+            <select>
+              <option>내부 교육용</option>
+              <option>내부 홍보용</option>
+              <option>서비스 안내용</option>
+            </select>
+          </label>
+          <button class="secondary" type="button">다음 단계로</button>
+        </section>
+
+        <section class="panel">
+          <h2>Step 2. 캐릭터 관리</h2>
+          <div class="card-grid">
+            <article class="card">
+              <div class="avatar"></div>
+              <div>
+                <h3>지수</h3>
+                <p>교육 담당자</p>
+              </div>
+            </article>
+            <article class="card">
+              <div class="avatar"></div>
+              <div>
+                <h3>민호</h3>
+                <p>고객</p>
+              </div>
+            </article>
+            <article class="card">
+              <div class="avatar"></div>
+              <div>
+                <h3>하늘</h3>
+                <p>관리자</p>
+              </div>
+            </article>
+          </div>
+          <div class="button-row">
+            <button class="primary" type="button">캐릭터 생성</button>
+            <button class="ghost" type="button">이미지 업로드</button>
+            <button class="ghost" type="button">시트 생성</button>
+          </div>
+        </section>
+      </div>
+
+      <div class="grid">
+        <section class="panel">
+          <h2>Step 3. 컷 구성 &amp; 대본</h2>
+          <div class="cut-layout">
+            <aside class="cut-list">
+              <button class="cut-item" type="button">
+                <span>컷 1</span>
+                <small>대본 입력</small>
+              </button>
+              <button class="cut-item" type="button">
+                <span>컷 2</span>
+                <small>이미지 생성</small>
+              </button>
+              <button class="cut-item" type="button">
+                <span>컷 3</span>
+                <small>편집 중</small>
+              </button>
+              <button class="cut-add" type="button">+ 컷 추가</button>
+            </aside>
+            <div class="cut-detail">
+              <label class="field">
+                장면 설명
+                <textarea
+                  placeholder="예: 지수가 신규 고객 응대를 설명한다."
+                  rows="4"
+                ></textarea>
+              </label>
+              <label class="field">
+                등장 캐릭터
+                <div class="tag-row">
+                  <span class="tag">지수</span>
+                  <span class="tag">민호</span>
+                  <button class="ghost small" type="button">선택</button>
+                </div>
+              </label>
+              <label class="field">
+                대사
+                <textarea placeholder="대사를 입력하세요." rows="3"></textarea>
+              </label>
+              <button class="secondary" type="button">컷 잠금</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel">
+          <h2>Step 4. 이미지 생성</h2>
+          <div class="status-card">
+            <div>
+              <h3>컷 2 - 텍스트 + 업로드 혼합</h3>
+              <p>배경 생성 + 캐릭터 고정 방식으로 재생성 가능</p>
+            </div>
+            <button class="primary" type="button">재생성</button>
+          </div>
+          <div class="status-card muted">
+            <div>
+              <h3>컷 1 - 텍스트 기반</h3>
+              <p>등장 캐릭터 · 행동 · 배경 프롬프트 입력됨</p>
+            </div>
+            <button class="ghost" type="button">완료됨</button>
+          </div>
+        </section>
+      </div>
+
+      <div class="grid">
+        <section class="panel">
+          <h2>Step 5. 편집기</h2>
+          <div class="editor">
+            <aside class="editor-nav">
+              <h3>컷 네비게이션</h3>
+              <button class="cut-item" type="button">컷 1</button>
+              <button class="cut-item" type="button">컷 2</button>
+              <button class="cut-item" type="button">컷 3</button>
+            </aside>
+            <div class="canvas">
+              <div class="canvas-placeholder">
+                <p>캔버스 미리보기</p>
+                <span>말풍선 · 레이어 · 텍스트 편집</span>
+              </div>
+            </div>
+            <aside class="editor-panel">
+              <h3>속성 패널</h3>
+              <label class="field">
+                폰트
+                <select>
+                  <option>Pretendard</option>
+                  <option>Nanum Gothic</option>
+                  <option>Apple SD Gothic Neo</option>
+                </select>
+              </label>
+              <label class="field">
+                크기
+                <input type="number" value="20" />
+              </label>
+              <label class="field">
+                색상
+                <input type="color" value="#1f2a37" />
+              </label>
+              <label class="field">
+                투명도
+                <input type="range" min="0" max="100" value="80" />
+              </label>
+            </aside>
+          </div>
+          <div class="toolbar">
+            <button class="ghost" type="button">원형</button>
+            <button class="ghost" type="button">각진</button>
+            <button class="ghost" type="button">생각풍선</button>
+            <button class="ghost" type="button">내레이션</button>
+          </div>
+        </section>
+
+        <section class="panel">
+          <h2>Step 6. 내보내기</h2>
+          <div class="export-options">
+            <label class="checkbox">
+              <input type="checkbox" checked /> PPTX 요소 분리
+            </label>
+            <div class="button-row">
+              <button class="primary" type="button">PPTX 다운로드</button>
+              <button class="ghost" type="button">PNG</button>
+              <button class="ghost" type="button">JPG</button>
+              <button class="ghost" type="button">PDF</button>
+            </div>
+          </div>
+          <div class="note">
+            <strong>요소 분리 구조</strong>
+            <ul>
+              <li>배경 · 캐릭터 · 말풍선 · 텍스트 레이어 분리</li>
+              <li>슬라이드 단위로 컷 출력</li>
+              <li>다운로드 후 PPT에서 직접 수정 가능</li>
+            </ul>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <script>
+      const cutRange = document.getElementById("cutRange");
+      const cutValue = document.getElementById("cutValue");
+
+      cutRange.addEventListener("input", (event) => {
+        cutValue.textContent = `${event.target.value}컷`;
+      });
+    </script>
+  </body>
+</html>
